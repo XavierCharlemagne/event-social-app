@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const res = require("express/lib/response");
 const app = express();
-const userModel = require("./Models/usersModels")
+const userModel = require("./Models/userModels")
 
 app.use(express.json());
 
