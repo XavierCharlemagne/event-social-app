@@ -5,9 +5,24 @@ const argon2 = require("argon2");
 
 async function addUser(userID, userPassword){
     const userID = crypto.randomUUID();
-    const hash = argon2.hash(userPassword);
-    console.log("The hash is: ");
-    console.log(hash);
+    const hash = await argon2.hash(userPassword);
+
+    const sql = ` INSERT INTO users VALUES(@userID, @userName, @userPassword, @userEmail, @userPhone); `;
+
+    const stmt = db.prepare(sql);
+
+    try{
+        stmt.run({
+            "userID": userID,
+            "userName": userName,
+            "userPassword": hash,
+            "userEmail": userEmail,
+            "userPhone": userPhone,
+        });
+    }
+    catch(err){
+        console.error(err);
+    }
 };
 
-addUser("Ellis", "younggeezy");
+exports.createUser = createUser;
